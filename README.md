@@ -129,9 +129,9 @@ Note that the buckets already had default encryption, since from 5th January 202
 
 Additionally terminated the attack instance and removed its Security Group, since it had the issues that were fixed in the "real" infrastructure during hardening, and so obfuscated how much had been resolved.
 
-The updated Config screenshot is [E4T3_config.png](./E4T3_config.png).
+The updated Config screenshot is [E4T3_config.png](./E4T3_config.png). Although the list is still long, the rules predicted in the earlier analsysis were resolved.
 
-The updated Inspector screenshot is [E4T3_inspector.png](./E4T3_inspector.png), where the findings all have a status of closed now.
+The updated Inspector screenshot is [E4T3_inspector.png](./E4T3_inspector.png), where the findings all have a status of closed now (since the inspector report is scoped to the Web instance and does not suffer from the same signal to noise ratio issue of the other reports).
 
 The updated Security Hub screenshot is [E4T3_securityhub.png](./E4T3_securityhub.png), the change being the EC2.13 "Security groups should not allow ingress from 0.0.0.0/0 to port 22" rule passing.
 

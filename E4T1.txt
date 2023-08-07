@@ -1,0 +1,11 @@
+1. "Identify 2-3 changes that can be made to our environment to prevent an SSH brute force attack from the internet."
+
+To prevent an SSH brute force attack from the Internet we can:
+
+* Disable password-based authentication at the host/AMI level for the Web server.
+* Edit the Security Groups so that port 22 is not open to the Internet.
+* Edit the Network ACL for the Trusted Public Subnet so that port 22 is not open to the Internet.
+
+2. "Neither instance should have had access to the secret recipes bucket; even in the instance that API credentials were compromised how could we have prevented access to sensitive data?"
+
+The policy `InstanceRolePolicy-C3` could specify the free recipes bucket, rather than applying to all S3 buckets, since that is the only bucket that the Web application needs to access. It should also only be given read access, since the application does not have functionality to create or update recipes that would necessitate write access.

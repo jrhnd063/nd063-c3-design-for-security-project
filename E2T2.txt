@@ -1,0 +1,19 @@
+Based on having enabled the Inspector, Security Hub and Config, the expected vulnerabilities with the Recipe Vault architecture are enumerated, alongside some unrelated alarms relating to other aspects of the AWS account setup. The primary vector for improvement relates to imposing least privilege and least required access, including redundant restrictions at multiple levels to provide additional layers of security.
+
+The network reachability vulnerabilities identified by Inspector can be remediated by hardening access at the level of the security group. Only `AppLoadBalancerSG` needs to accept port 80 connections from the world. The `WebAppSG` should only accept port 5000 connections from `AppLoadBalancerSG` or at least the trusted public subnet. `WebAppSG` should not have SSH open to the Internet: it can either only accept SSH connections from the expected IP address of the employee(s) who require SSH access, or, better, not accept SSH connections and be administered via Systems Manager; or, best of all, be immutable and never be administered, with changes deployed via a new AMI.
+
+Network ACLs can also be hardened, for an additional line of defence at the Trusted Public Subnet level, so that the only port open to connections from the Internet is port 80.
+
+These changes will also address the highest-rated vulnerabilities identified by Security Hub that are related to this application deployment, EC2.13 (SSH access from world allowed by `WebAppSG`).
+
+Similarly, the changes will resolve at least the following non-compliant AWS Config rules as applicable to the Trusted Public Subnet infrastructure:
+
+```
+securityhub-nacl-no-unrestricted-ssh-rdp-a1775c73,
+securityhub-restricted-rdp-2021c952,
+securityhub-restricted-ssh-6a95ee5d,
+securityhub-vpc-sg-restricted-common-ports-a51f6f51,
+securityhub-vpc-sg-open-only-to-authorized-ports-fc9bd272
+```
+
+We should also consider resolving the Config rule `securityhub-s3-bucket-ssl-requests-only-187ebff0` to prevent any possible http access to the secret recipes leading them to be transferred over the open Internet. This can be done via a policy as described [here](https://repost.aws/knowledge-center/s3-bucket-policy-for-config-rule).

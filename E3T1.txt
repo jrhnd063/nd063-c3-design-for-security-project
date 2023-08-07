@@ -1,0 +1,3 @@
+GuardDuty found two instances of "UnauthorizedAccess:EC2/SSHBruteForce", which is expected given that both the source and target are within the AWS account. The alert with low severity corresponds to the target being the Web application EC2 instance. The alert with high severity corresponds to the source being the Attack EC2 instance.
+
+The GuardDuty documentation indicates that the data source for the finding `UnauthorizedAccess:EC2/SSHBruteForce` is VPC flow logs.

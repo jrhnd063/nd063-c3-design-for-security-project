@@ -1,0 +1,21 @@
+"1. Identify tools that will allow you to do the following:
+
+a. Scan infrastructure as code templates."
+
+[Regula](https://github.com/fugue/regula)
+
+"b. Scan AMI’s or containers for OS vulnerabilities."
+
+[Trivy](https://github.com/aquasecurity/trivy)
+
+"c. Scan an AWS environment for cloud configuration vulnerabilities."
+
+AWS Config.
+
+"2. For each tool - identify an example compliance violation or vulnerability that it might expose."
+
+Regula identifies potentially exploitable vulnerabilities in IaC, including Terraform and CloudFormation. It can highlight the kind of issues seen in the "starter" versions of the CloudFormation templates for this project so that instances that have SSH open to the world are never deployed, rather than being deployed, detected, and remediated later.
+
+Trivy can scan artifacts including Docker images and Virtual Machine Images, and provide a report on any vulnerabilities related to the Operating System, but also the bespoke code (in a wide range of languages) and software dependencies. It can be integrated with tools such as Travis and GitLab CI so that pipelines fail if vulnerabilities above a certain, user-configured level of severity are encountered.
+
+The native AWS service, Config, with its compliance rules, then flags any potentially problematic infrastructure configuration that has made it into production. However, the aim with DevSecOps is that vulnerabilities be discovered at this stage as seldom as possible, following a "Shift Left" approach in which problems are identified before the flawed configurations or components are deployed.

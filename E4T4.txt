@@ -1,0 +1,15 @@
+"What additional architectural change can be made to reduce the internet-facing attack surface of the web application instance."
+
+In addition to closing SSH access and making the Web server an immutable AMI, the app can be placed behind a Web Application Firewall.
+
+"Assuming the IAM permissions for the S3 bucket are still insecure, would creating VPC private endpoints for S3 prevent the unauthorized access to the secrets bucket."
+
+No, a private VPC Endpoint would not stop the class of attack we have been simulating, because this attack was coming from within the same VPC. It would however prevent another class of attack in which the leaked credentials were used to access the bucket from elsewhere, such as directly over the Internet.
+
+"Will applying default encryption setting to the s3 buckets encrypt the data that already exists?"
+
+When it was possible to create unencrypted S3 buckets, applying default encryption to an unencrypted bucket did not retroactively encrypt the existing objects. However, as of 5th January 2023 it is not possible to create a bucket without (at least) the default encryption.
+
+"The changes you made above were done through the console or CLI; describe the outcome if the original cloud formation templates are applied to this environment?"
+
+Re-applying the original templates with the CLI using an `update-stack` call would cause CloudFormation to revert any changes back to how they were in the original setup, with the original security group and policy issues.
